@@ -44,7 +44,7 @@ public class Card {
     private Boolean isDefault;
 
     @ManyToOne
-    @JoinColumn(name = "wallet_id")
-    private Wallet wallet;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

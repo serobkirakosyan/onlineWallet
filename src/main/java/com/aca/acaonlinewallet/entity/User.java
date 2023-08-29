@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "user", schema = "wallet_v1")
 @Getter
@@ -25,13 +28,20 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "age")
-    private Integer age;
+    @Column(name = "phone_number")
+    private Integer phoneNumber;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "birth_date")
+    private Date birthDate;
 
     @Column(name = "gender")
     private String gender;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Wallet wallet;
+
+    @OneToMany(mappedBy = "user")
+    private List<Card> listOfCards;
 
 }
