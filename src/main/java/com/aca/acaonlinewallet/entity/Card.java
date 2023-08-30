@@ -24,7 +24,7 @@ public class Card {
     @Column(name = "cardholder_surname")
     private String cardHolderSurname;
 
-    @Column(name = "card_number")
+    @Column(name = "card_number", unique = true)
     private Long cardNumber;
 
     @Temporal(TemporalType.DATE)
