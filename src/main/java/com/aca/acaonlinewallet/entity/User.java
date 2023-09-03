@@ -14,9 +14,8 @@ import java.util.List;
 public class User {
 
     @Id
-    @SequenceGenerator(name = "user_id_seq", sequenceName = "wallet_v1.user_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wallet_v1.user_id_seq")
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "name")
@@ -41,7 +40,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Wallet wallet;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Card> listOfCards;
 
 }

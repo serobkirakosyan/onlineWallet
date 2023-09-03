@@ -25,4 +25,15 @@ public class UserController {
         return userService.addUser(userDto);
     }
 
+    @PutMapping("/update/{id}")
+    public UserDto updateUser(@PathVariable Long id,
+                              @RequestBody UserDto userDto) {
+        return userService.updateUser(id, userDto);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+    }
+
 }

@@ -29,8 +29,33 @@ public class UserService {
         }
 
         User user = UserDto.mapDtoToEntity(userDto);
-
         return UserDto.mapEntityToDto(userRepository.save(user));
+    }
+
+    @Transactional
+    public UserDto updateUser(Long id, UserDto userDto) {
+        boolean nullArgumentPassed = id == null || userDto == null;
+
+        if (nullArgumentPassed) {
+            throw new RuntimeException("id and user can't be null");
+        }
+
+        userRepository.findById(id).orElseThrow(() -> new RuntimeException("User with id " + id + " doesn't exist"));
+
+        User updatedUser = UserDto.mapDtoToEntity(userDto);
+        updatedUser.setId(id);
+        return UserDto.mapEntityToDto(userRepository.save(updatedUser));
+    }
+
+    @Transactional
+    public void deleteUserById(Long id) {
+        boolean existsById = userRepository.existsById(id);
+
+        if (!existsById) {
+            throw new RuntimeException("User with id " + id + " doesn't exist");
+        }
+
+        userRepository.deleteById(id);
     }
 
 }
