@@ -13,8 +13,7 @@ import java.util.Date;
 public class Card {
 
     @Id
-    @SequenceGenerator(name = "card_id_seq", sequenceName = "wallet_v1.card_id_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wallet_v1.card_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 

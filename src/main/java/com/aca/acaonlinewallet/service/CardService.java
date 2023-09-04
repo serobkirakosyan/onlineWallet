@@ -2,10 +2,14 @@ package com.aca.acaonlinewallet.service;
 
 import com.aca.acaonlinewallet.dto.CardDto;
 import com.aca.acaonlinewallet.entity.Card;
+import com.aca.acaonlinewallet.entity.User;
 import com.aca.acaonlinewallet.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CardService {
@@ -36,13 +40,39 @@ public class CardService {
     @Transactional
     public CardDto updateCard(CardDto cardDto, Long id) {
 
-        if (cardDto == null ) {
+        if (cardDto == null) {
             throw new RuntimeException("Card or id can't be null");
         }
-        cardRepository.findById(id).orElseThrow(()->new RuntimeException("Card by id " + id + " is not found"));
+        cardRepository.findById(id).orElseThrow(() -> new RuntimeException("Card by id " + id + " is not found"));
         Card card = CardDto.mapDtoToEntity(cardDto);
         card.setId(id);
         return CardDto.mapEntityToDto(cardRepository.save(card));
+    }
+
+    @Transactional
+    public void changeDefault(Long cardId, Long userId) {
+
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card can't be null"));
+        if (card.getIsDefault()) {
+            return;
+        }
+        User user = card.getUser();
+
+        if (!Objects.equals(user.getId(), userId)) {
+            throw new RuntimeException("This card does not belong to this user");
+        }
+
+        List<Card> cardList = user.getListOfCards();
+        for (Card defaultCard : cardList) {
+            if (defaultCard.getIsDefault()) {
+                defaultCard.setIsDefault(false);
+                cardRepository.save(defaultCard);
+                break;
+            }
+        }
+
+        card.setIsDefault(true);
+        cardRepository.save(card);
     }
 
     @Transactional
