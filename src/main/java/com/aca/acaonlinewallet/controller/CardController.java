@@ -31,6 +31,11 @@ public class CardController {
         return cardService.updateCard(cardDto, id);
     }
 
+    @PutMapping("/changeDefault/{cardId}/{userId}")
+    public void changeDefaultCard(@PathVariable Long cardId, @PathVariable Long userId) {
+        cardService.changeDefault(cardId, userId);
+    }
+
     @DeleteMapping("/delete/{id}")
     public void deleteCard(@PathVariable Long id) {
         cardService.deleteById(id);
