@@ -37,4 +37,22 @@ public class WalletController {
         walletService.deleteWallet(id);
     }
 
+    @PostMapping("/transfer")
+    public void transferMoney(@RequestParam String walletNumber, @RequestParam Double amount){
+        Long userId = 1L;
+        walletService.moneyTransfer(userId, walletNumber, amount);
+    }
+
+    @PostMapping("/transferMoneyFromWalletToDefaultCard")
+    public void transferFromWalletToDefaultCard(@RequestParam Double amount){
+        Long userId = 1L;
+        walletService.transferMoneyToDefaultCard(userId, amount);
+    }
+
+    @PostMapping("/transferMoneyFromWalletToCard")
+    public void transferMoneyFromWalletToCard(@RequestParam Long cardNumber, @RequestParam Double amount){
+        Long userId = 1L;
+        walletService.transferMoneyFromWalletToCard(userId, cardNumber,amount);
+    }
+
 }
