@@ -21,6 +21,10 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
+    public  Card getCardByCardNumber(Long cardNumber) {
+        return cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new RuntimeException("Card by id " + cardNumber + " is not found"));
+    }
+
     public CardDto getCard(Long id) {
         Card card = cardRepository.findById(id).orElseThrow(() -> new RuntimeException("Card by id " + id + " is not found"));
         return CardDto.mapEntityToDto(card);

@@ -18,6 +18,7 @@ public class UserDto {
     private Integer phoneNumber;
     private Date birthDate;
     private String gender;
+    private WalletDto walletDto;
     private List<CardDto> listOfCardDtos;
 
 
@@ -31,6 +32,7 @@ public class UserDto {
         dto.setGender(entity.getGender());
         dto.setBirthDate(entity.getBirthDate());
         dto.setListOfCardDtos(CardDto.mapEntitiesToDtos(entity.getListOfCards()));
+        dto.setWalletDto(WalletDto.mapEntityToDto(entity.getWallet()));
         return dto;
     }
 
@@ -44,6 +46,7 @@ public class UserDto {
         entity.setPhoneNumber(userDto.getPhoneNumber());
         entity.setBirthDate(userDto.getBirthDate());
         entity.setListOfCards(CardDto.mapDtosToEntities(userDto.getListOfCardDtos()));
+        entity.setWallet(WalletDto.mapDtoToEntity(userDto.getWalletDto()));
         return entity;
     }
 
