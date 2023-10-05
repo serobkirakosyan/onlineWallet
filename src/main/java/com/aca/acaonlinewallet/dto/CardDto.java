@@ -3,7 +3,9 @@ package com.aca.acaonlinewallet.dto;
 import com.aca.acaonlinewallet.entity.Card;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,10 +61,18 @@ public class CardDto {
     }
 
     public static List<CardDto> mapEntitiesToDtos(List<Card> cards) {
+        if (CollectionUtils.isEmpty(cards)) {
+            return new ArrayList<>();
+        }
+
         return cards.stream().map(CardDto::mapEntityToDto).collect(Collectors.toList());
     }
 
     public static List<Card> mapDtosToEntities(List<CardDto> dtos) {
+        if (CollectionUtils.isEmpty(dtos)) {
+            return new ArrayList<>();
+        }
+
         return dtos.stream().map(CardDto::mapDtoToEntity).collect(Collectors.toList());
     }
 

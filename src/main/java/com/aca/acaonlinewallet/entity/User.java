@@ -1,8 +1,7 @@
 package com.aca.acaonlinewallet.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +10,9 @@ import java.util.List;
 @Table(name = "user", schema = "wallet_v1")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class User {
 
     @Id
@@ -28,7 +30,7 @@ public class User {
     private String address;
 
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "birth_date")
@@ -37,8 +39,14 @@ public class User {
     @Column(name = "gender")
     private String gender;
 
+    @Column(name = "password")
+    private String password;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Wallet wallet;
+
+    @Column(name = "role")
+    private String role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Card> listOfCards;
