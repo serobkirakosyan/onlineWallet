@@ -15,9 +15,11 @@ public class UserDto {
     private String name;
     private String email;
     private String address;
-    private Integer phoneNumber;
+    private String phoneNumber;
     private Date birthDate;
     private String gender;
+    private WalletDto walletDto;
+    private String password;
     private List<CardDto> listOfCardDtos;
 
 
@@ -30,7 +32,9 @@ public class UserDto {
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setGender(entity.getGender());
         dto.setBirthDate(entity.getBirthDate());
+        dto.setPassword(entity.getPassword());
         dto.setListOfCardDtos(CardDto.mapEntitiesToDtos(entity.getListOfCards()));
+        dto.setWalletDto(WalletDto.mapEntityToDto(entity.getWallet()));
         return dto;
     }
 
@@ -43,7 +47,9 @@ public class UserDto {
         entity.setGender(userDto.getGender());
         entity.setPhoneNumber(userDto.getPhoneNumber());
         entity.setBirthDate(userDto.getBirthDate());
+        entity.setPassword(userDto.getPassword());
         entity.setListOfCards(CardDto.mapDtosToEntities(userDto.getListOfCardDtos()));
+        entity.setWallet(WalletDto.mapDtoToEntity(userDto.getWalletDto()));
         return entity;
     }
 
@@ -53,6 +59,21 @@ public class UserDto {
 
     public static List<User> mapDtosToEntities(List<UserDto> userDtoList) {
         return userDtoList.stream().map(UserDto::mapDtoToEntity).collect(Collectors.toList());
+    }
+
+    public enum Role {
+        USER("USER"),
+        ADMIN("ADMIN");
+
+        private final String value;
+
+        Role(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
 }

@@ -38,5 +38,4 @@ public class WalletDto {
     public static List<Wallet> mapDtosToEntities(List<WalletDto> walletDtoList) {
         return walletDtoList.stream().map(WalletDto::mapDtoToEntity).collect(Collectors.toList());
     }
-
 }

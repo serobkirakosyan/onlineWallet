@@ -1,8 +1,11 @@
 package com.aca.acaonlinewallet.controller;
 
+import com.aca.acaonlinewallet.auth.CurrentUser;
 import com.aca.acaonlinewallet.dto.UserDto;
 import com.aca.acaonlinewallet.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,25 +18,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/get/{id}")
-    public UserDto getUser(@PathVariable Long id) {
-        return userService.getUser(id);
+    @GetMapping("/get")
+    @PreAuthorize("hasRole('USER')")
+    public UserDto getUser(@AuthenticationPrincipal CurrentUser currentUser) {
+
+        return userService.getUser(currentUser.getId());
     }
 
-    @PostMapping("/add")
-    public UserDto addUser(@RequestBody UserDto userDto) {
-        return userService.addUser(userDto);
-    }
 
-    @PutMapping("/update/{id}")
-    public UserDto updateUser(@PathVariable Long id,
+    @PutMapping("/update")
+    @PreAuthorize("hasRole('USER')")
+    public UserDto updateUser(@AuthenticationPrincipal CurrentUser currentUser,
                               @RequestBody UserDto userDto) {
-        return userService.updateUser(id, userDto);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUserById(id);
+        return userService.updateUser(currentUser.getId(), userDto);
     }
 
 }

@@ -1,8 +1,10 @@
 package com.aca.acaonlinewallet.controller;
 
+import com.aca.acaonlinewallet.auth.CurrentUser;
 import com.aca.acaonlinewallet.dto.CardDto;
 import com.aca.acaonlinewallet.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -29,6 +31,12 @@ public class CardController {
     @PutMapping("/update/{id}")
     public CardDto updateCard(@RequestBody CardDto cardDto, @PathVariable Long id) {
         return cardService.updateCard(cardDto, id);
+    }
+
+    @PutMapping("/changeDefault/{cardId}")
+    public void changeDefaultCard(@PathVariable Long cardId,
+                                  @AuthenticationPrincipal CurrentUser currentUser) {
+        cardService.changeDefault(cardId, currentUser.getId());
     }
 
     @DeleteMapping("/delete/{id}")
