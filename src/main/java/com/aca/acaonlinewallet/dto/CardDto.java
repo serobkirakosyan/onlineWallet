@@ -33,6 +33,10 @@ public class CardDto {
     private Boolean isDefault;
 
     public static CardDto mapEntityToDto(Card card) {
+        if (card == null) {
+            return null;
+        }
+
         CardDto cardDto = new CardDto();
         cardDto.setId(card.getId());
         cardDto.setCardHolderName(card.getCardHolderName());
@@ -47,6 +51,10 @@ public class CardDto {
     }
 
     public static Card mapDtoToEntity(CardDto cardDto) {
+        if (cardDto == null) {
+            return null;
+        }
+
         Card card = new Card();
         card.setId(cardDto.getId());
         card.setCardHolderName(cardDto.getCardHolderName());

@@ -1,6 +1,7 @@
 package com.aca.acaonlinewallet.auth;
 
 import com.aca.acaonlinewallet.dto.UserDto;
+import com.aca.acaonlinewallet.dto.WalletDto;
 import com.aca.acaonlinewallet.entity.User;
 import com.aca.acaonlinewallet.repository.UserRepository;
 import com.aca.acaonlinewallet.util.JwtService;
@@ -45,8 +46,9 @@ public class AuthenticationService {
                 .id(user.getId())
                 .email(user.getEmail())
                 .password(user.getPassword())
+                .walletId(user.getWallet().getId())
                 .build();
-        String jwtToken = jwtService.generateToken(currentUser);
+        String jwtToken = jwtService.generateToken(currentUser.getUsername());
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)

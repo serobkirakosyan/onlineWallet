@@ -1,6 +1,7 @@
 package com.aca.acaonlinewallet.auth;
 
 import com.aca.acaonlinewallet.dto.UserDto;
+import com.aca.acaonlinewallet.dto.WalletDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class CurrentUser implements UserDetails {
     private Long id;
     private String email;
     private String password;
+    private Long walletId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
