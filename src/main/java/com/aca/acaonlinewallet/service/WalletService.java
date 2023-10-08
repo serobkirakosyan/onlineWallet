@@ -76,11 +76,11 @@ public class WalletService {
         }
         Wallet walletByNumber = walletRepository.findByNumber(walletNumber).orElseThrow(() -> new RuntimeException("Wallet with number " + walletNumber + " does not exist"));
         User user = UserDto.mapDtoToEntity(userService.getUser(userId));
-        transferMoneyBetweenWallets(user.getWallet(), walletByNumber, amount);
+        transferToWallet(user.getWallet(), walletByNumber, amount);
         walletRepository.save(walletByNumber);
         walletRepository.save(user.getWallet());
     }
-    private void transferMoneyBetweenWallets(Wallet user1Wallet, Wallet user2Wallet, Double amount){
+    private void transferToWallet(Wallet user1Wallet, Wallet user2Wallet, Double amount){
         if (user1Wallet.getBalance() < amount){
             throw new RuntimeException("There is not enough money to transfer");
         }
@@ -88,7 +88,7 @@ public class WalletService {
         user2Wallet.setBalance(user2Wallet.getBalance() + amount);
     }
     @Transactional
-    public void transferMoneyToDefaultCard(Long userId, Double amount){
+    public void transferToDefaultCard(Long userId, Double amount){
         User user = UserDto.mapDtoToEntity(userService.getUser(userId));
         if (user.getWallet().getBalance() < amount) {
             throw new RuntimeException("There is not enough money in wallet");
@@ -103,7 +103,7 @@ public class WalletService {
         userService.updateUser(userId, UserDto.mapEntityToDto(user));
     }
     @Transactional
-    public void transferMoneyFromWalletToCard(Long userId, Long cardNumber, Double amount){
+    public void transferToCard(Long userId, Long cardNumber, Double amount){
         Card card = cardService.getCardByCardNumber(cardNumber);
         User user = UserDto.mapDtoToEntity(userService.getUser(userId)) ;
         if (user.getWallet().getBalance() < amount) {

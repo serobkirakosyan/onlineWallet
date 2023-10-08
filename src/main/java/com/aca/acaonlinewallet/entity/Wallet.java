@@ -21,8 +21,7 @@ public class Wallet {
     @Column(name = "number")
     private String number;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private User user;
 
 }
