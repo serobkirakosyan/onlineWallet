@@ -48,7 +48,10 @@ public class User {
     @Column(name = "role")
     private String role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> listOfCards;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UtilityPayment> listOfUtilityPayments;
 
 }

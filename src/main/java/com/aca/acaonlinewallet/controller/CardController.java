@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/card")
+@RequestMapping("/api/card")
 public class CardController {
     private final CardService cardService;
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/wallet")
+@RequestMapping("/api/wallet")
 
 public class WalletController {
 
