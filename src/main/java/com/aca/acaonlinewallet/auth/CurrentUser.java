@@ -1,7 +1,6 @@
 package com.aca.acaonlinewallet.auth;
 
 import com.aca.acaonlinewallet.dto.UserDto;
-import com.aca.acaonlinewallet.dto.WalletDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

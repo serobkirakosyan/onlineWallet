@@ -43,4 +43,11 @@ public class UtilityPaymentController {
         utilityPaymentService.removeUtility(id);
     }
 
+    @PutMapping("/pay")
+    public ResponseEntity<UtilityPaymentDto> payUtility(@RequestParam String type,
+                                                        @RequestParam Double amount,
+                                                        @AuthenticationPrincipal CurrentUser currentUser) {
+        return ResponseEntity.ok(utilityPaymentService.payUtility(type, amount, currentUser.getId(), currentUser.getWalletId()));
+    }
+
 }

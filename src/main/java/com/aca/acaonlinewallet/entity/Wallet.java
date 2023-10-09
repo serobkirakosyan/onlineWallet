@@ -21,7 +21,7 @@ public class Wallet {
     @Column(name = "number")
     private String number;
 
-    @OneToOne(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "wallet", fetch = FetchType.LAZY)
     private User user;
 
 }

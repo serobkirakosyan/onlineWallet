@@ -1,7 +1,6 @@
 package com.aca.acaonlinewallet.auth;
 
 import com.aca.acaonlinewallet.dto.UserDto;
-import com.aca.acaonlinewallet.dto.WalletDto;
 import com.aca.acaonlinewallet.entity.User;
 import com.aca.acaonlinewallet.repository.UserRepository;
 import com.aca.acaonlinewallet.util.JwtService;
