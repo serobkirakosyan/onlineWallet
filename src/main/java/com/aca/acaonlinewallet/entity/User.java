@@ -42,7 +42,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 
