@@ -4,6 +4,7 @@ import com.aca.acaonlinewallet.dto.UserDto;
 import com.aca.acaonlinewallet.entity.User;
 import com.aca.acaonlinewallet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scripting.support.StandardScriptEvalException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

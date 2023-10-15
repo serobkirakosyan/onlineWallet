@@ -1,6 +1,8 @@
 package com.aca.acaonlinewallet.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "card", schema = "wallet_v1")
-@Getter
-@Setter
+@Data
 public class Card {
 
     @Id
