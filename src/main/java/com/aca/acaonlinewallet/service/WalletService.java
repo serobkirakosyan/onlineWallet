@@ -5,6 +5,10 @@ import com.aca.acaonlinewallet.dto.WalletDto;
 import com.aca.acaonlinewallet.entity.Card;
 import com.aca.acaonlinewallet.entity.User;
 import com.aca.acaonlinewallet.entity.Wallet;
+import com.aca.acaonlinewallet.exception.InsufficientFundsException;
+import com.aca.acaonlinewallet.exception.NullDtoException;
+import com.aca.acaonlinewallet.exception.NullIdException;
+import com.aca.acaonlinewallet.exception.WalletNotFoundException;
 import com.aca.acaonlinewallet.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +28,7 @@ public class WalletService {
     }
 
     public WalletDto getWallet(Long id) {
-        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new RuntimeException("Wallet by id " + id + " is not found"));
+        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new WalletNotFoundException("Wallet by id " + id + " is not found"));
         return WalletDto.mapEntityToDto(wallet);
     }
 
@@ -32,7 +36,7 @@ public class WalletService {
     public WalletDto addWallet(WalletDto walletDto) {
 
         if (walletDto == null) {
-            throw new RuntimeException("Wallet can't be null");
+            throw new NullDtoException("Wallet can't be null");
         }
 
         Wallet wallet = WalletDto.mapDtoToEntity(walletDto);
@@ -44,7 +48,7 @@ public class WalletService {
     public void deleteWallet(Long id) {
         boolean existsById = walletRepository.existsById(id);
         if (!existsById) {
-            throw new RuntimeException("Wallet by id" + id + "does not exist");
+            throw new WalletNotFoundException("Wallet by id" + id + "does not exist");
         }
         walletRepository.deleteById(id);
     }
@@ -52,15 +56,15 @@ public class WalletService {
     @Transactional
     public WalletDto updateWallet(Long id, WalletDto walletDto) {
         if (id == null) {
-            throw new IllegalArgumentException("id cannot be null");
+            throw new NullIdException("id cannot be null");
         }
 
         if (walletDto == null) {
-            throw new IllegalArgumentException("walletDto cannot be null");
+            throw new NullDtoException("walletDto cannot be null");
         }
 
         walletRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Wallet by id " + id + " does not exist"));
+                .orElseThrow(() -> new WalletNotFoundException("Wallet by id " + id + " does not exist"));
 
         Wallet updatedWallet = WalletDto.mapDtoToEntity(walletDto);
         updatedWallet.setId(id);
@@ -71,10 +75,10 @@ public class WalletService {
     @Transactional
     public void moneyTransfer(Long userId , String walletNumber, Double amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("Amount should be more than zero");
+            throw new InsufficientFundsException("Amount should be more than zero");
 
         }
-        Wallet walletByNumber = walletRepository.findByNumber(walletNumber).orElseThrow(() -> new RuntimeException("Wallet with number " + walletNumber + " does not exist"));
+        Wallet walletByNumber = walletRepository.findByNumber(walletNumber).orElseThrow(() -> new WalletNotFoundException("Wallet with number " + walletNumber + " does not exist"));
         User user = UserDto.mapDtoToEntity(userService.getUser(userId));
         transferMoneyBetweenWallets(user.getWallet(), walletByNumber, amount);
         walletRepository.save(walletByNumber);
@@ -82,7 +86,7 @@ public class WalletService {
     }
     private void transferMoneyBetweenWallets(Wallet user1Wallet, Wallet user2Wallet, Double amount){
         if (user1Wallet.getBalance() < amount){
-            throw new RuntimeException("There is not enough money to transfer");
+            throw new InsufficientFundsException("There is not enough money to transfer");
         }
         user1Wallet.setBalance(user1Wallet.getBalance() - amount);
         user2Wallet.setBalance(user2Wallet.getBalance() + amount);
@@ -91,7 +95,7 @@ public class WalletService {
     public void transferMoneyToDefaultCard(Long userId, Double amount){
         User user = UserDto.mapDtoToEntity(userService.getUser(userId));
         if (user.getWallet().getBalance() < amount) {
-            throw new RuntimeException("There is not enough money in wallet");
+            throw new InsufficientFundsException("There is not enough money in wallet");
         }
         user.getWallet().setBalance(user.getWallet().getBalance() - amount);
         for(Card card: user.getListOfCards()){
@@ -107,7 +111,7 @@ public class WalletService {
         Card card = cardService.getCardByCardNumber(cardNumber);
         User user = UserDto.mapDtoToEntity(userService.getUser(userId)) ;
         if (user.getWallet().getBalance() < amount) {
-            throw new RuntimeException("There is not enough money in wallet");
+            throw new InsufficientFundsException("There is not enough money in wallet");
         }
         user.getWallet().setBalance(user.getWallet().getBalance()-amount);
         card.setAccount(card.getAccount() + amount);
