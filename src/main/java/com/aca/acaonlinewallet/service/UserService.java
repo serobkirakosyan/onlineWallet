@@ -2,6 +2,7 @@ package com.aca.acaonlinewallet.service;
 
 import com.aca.acaonlinewallet.dto.UserDto;
 import com.aca.acaonlinewallet.entity.User;
+import com.aca.acaonlinewallet.exception.UserNotFoundException;
 import com.aca.acaonlinewallet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scripting.support.StandardScriptEvalException;
@@ -17,6 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserDto getUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User by id " + id + " is not found"));
         logger.info("Getting user by id: {}", id);
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User by id " + id + " is not found"));
         logger.info("User found: {}", user);
@@ -29,10 +31,10 @@ public class UserService {
         boolean nullArgumentPassed = id == null || userDto == null;
 
         if (nullArgumentPassed) {
-            throw new RuntimeException("id and user can't be null");
+            throw new UserNotFoundException("id and user can't be null");
         }
 
-        userRepository.findById(id).orElseThrow(() -> new RuntimeException("User with id " + id + " doesn't exist"));
+        userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User with id " + id + " doesn't exist"));
 
         User updatedUser = UserDto.mapDtoToEntity(userDto);
         updatedUser.setId(id);
