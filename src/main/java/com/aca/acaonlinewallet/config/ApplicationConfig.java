@@ -30,6 +30,7 @@ public class ApplicationConfig {
                     .id(user.getId())
                     .email(user.getEmail())
                     .password(user.getPassword())
+                    .walletId(user.getWallet().getId())
                     .build();
         };
     }
