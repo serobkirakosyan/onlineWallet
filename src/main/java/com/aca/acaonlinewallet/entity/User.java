@@ -8,8 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "wallet_v1")
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor

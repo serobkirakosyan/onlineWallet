@@ -1,13 +1,13 @@
 package com.aca.acaonlinewallet.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "wallet", schema = "wallet_v1")
-@Getter
-@Setter
+@Data
 public class Wallet {
 
     @Id
