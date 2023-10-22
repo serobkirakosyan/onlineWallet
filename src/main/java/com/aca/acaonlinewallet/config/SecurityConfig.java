@@ -1,5 +1,6 @@
 package com.aca.acaonlinewallet.config;
 
+import com.aca.acaonlinewallet.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +25,9 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("api/wallet_v1/auth/**")
+                .requestMatchers("api/wallet_v1/auth/**", "/payment/**")
                 .permitAll()
+                .requestMatchers("/site/**").hasRole(UserDto.Role.ADMIN.getValue())
                 .anyRequest()
                 .authenticated()
                 .and()

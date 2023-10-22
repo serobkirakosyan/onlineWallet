@@ -26,10 +26,6 @@ public class CurrentUser implements UserDetails {
         return List.of(new SimpleGrantedAuthority(UserDto.Role.USER.getValue()));
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
     @Override
     public String getPassword() {
         return this.password;

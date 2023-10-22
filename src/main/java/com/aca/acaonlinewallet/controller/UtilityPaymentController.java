@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/utility")
+@RequestMapping("/api/wallet_v1/utility")
 @RequiredArgsConstructor
 public class UtilityPaymentController {
     private final UtilityPaymentService utilityPaymentService;
