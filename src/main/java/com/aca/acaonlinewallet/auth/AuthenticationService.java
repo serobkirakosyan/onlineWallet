@@ -27,7 +27,7 @@ public class AuthenticationService {
                 .gender(request.getGender())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(UserDto.Role.USER.getValue())
+                .role(request.getRole())
                 .build();
         return userRepository.save(user);
     }

@@ -28,14 +28,6 @@ public class CardService {
     }
 
     public Card getCardByCardNumber(Long cardNumber) {
-        return cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new CardNotFoundException("Card by id " + cardNumber + " is not found"));
-    }
-
-    public CardDto getCard(Long id) {
-        Card card = cardRepository.findById(id).orElseThrow(() -> new CardNotFoundException("Card by id " + id + " is not found"));
-
-    public  Card getCardByCardNumber(Long cardNumber) {
-
         logger.info("Getting card by card number: {}", cardNumber);
         return cardRepository.findByCardNumber(cardNumber).orElseThrow(() -> new RuntimeException("Card by id " + cardNumber + " is not found"));
     }
@@ -73,7 +65,6 @@ public class CardService {
 
     @Transactional
     public void changeDefault(Long cardId, Long userId) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException("Card can't be null"));
         logger.info("Changing default card with id: {}", cardId);
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card can't be null"));
         if (card.getIsDefault()) {

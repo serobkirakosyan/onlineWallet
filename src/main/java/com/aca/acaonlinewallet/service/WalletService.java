@@ -31,9 +31,8 @@ public class WalletService {
     }
 
     public WalletDto getWallet(Long id) {
-        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new WalletNotFoundException("Wallet by id " + id + " is not found"));
         logger.info("Getting wallet by id: {}", id);
-        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new RuntimeException("Wallet by id " + id + " is not found"));
+        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new WalletNotFoundException("Wallet by id " + id + " is not found"));
         logger.info("Wallet found: {}", wallet);
         return WalletDto.mapEntityToDto(wallet);
     }
@@ -96,8 +95,9 @@ public class WalletService {
         walletRepository.save(user.getWallet());
         logger.info("Money transferred successfully");
     }
-    public void transferToWallet(Wallet user1Wallet, Wallet user2Wallet, Double amount){
-        if (user1Wallet.getBalance() < amount){
+
+    public void transferToWallet(Wallet user1Wallet, Wallet user2Wallet, Double amount) {
+        if (user1Wallet.getBalance() < amount) {
             throw new InsufficientFundsException("There is not enough money to transfer");
         }
         user1Wallet.setBalance(user1Wallet.getBalance() - amount);
@@ -128,9 +128,8 @@ public class WalletService {
         Card card = cardService.getCardByCardNumber(cardNumber);
         User user = UserDto.mapDtoToEntity(userService.getUser(userId));
         if (user.getWallet().getBalance() < amount) {
-            throw new InsufficientFundsException("There is not enough money in wallet");
             logger.info("Not enough balance in the wallet for money transfer");
-            throw new RuntimeException("There is not enough money in wallet");
+            throw new InsufficientFundsException("There is not enough money in wallet");
         }
         user.getWallet().setBalance(user.getWallet().getBalance() - amount);
         card.setAccount(card.getAccount() + amount);

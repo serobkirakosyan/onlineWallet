@@ -9,7 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/wallet_v1/user")
 public class UserController {
     private final UserService userService;
 
@@ -21,10 +21,8 @@ public class UserController {
     @GetMapping("/get")
     @PreAuthorize("hasRole('USER')")
     public UserDto getUser(@AuthenticationPrincipal CurrentUser currentUser) {
-
         return userService.getUser(currentUser.getId());
     }
-
 
     @PutMapping("/update")
     @PreAuthorize("hasRole('USER')")

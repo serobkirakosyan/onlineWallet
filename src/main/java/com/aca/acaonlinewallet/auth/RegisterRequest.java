@@ -20,5 +20,6 @@ public class RegisterRequest {
     private Date birthDate;
     private String gender;
     private String password;
+    private String role;
 
 }
