@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("api/wallet_v1/auth/**", "/payment/**")
+                .requestMatchers("api/wallet_v1/auth/**", "/api/wallet_v1/payment/**")
                 .permitAll()
                 .requestMatchers("/site/**").hasRole(UserDto.Role.ADMIN.getValue())
                 .anyRequest()
