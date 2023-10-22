@@ -1,12 +1,14 @@
 package com.aca.acaonlinewallet.controller;
 
+import com.aca.acaonlinewallet.auth.CurrentUser;
 import com.aca.acaonlinewallet.dto.WalletDto;
 import com.aca.acaonlinewallet.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/wallet")
+@RequestMapping("/api/wallet_v1/wallet")
 
 public class WalletController {
 
@@ -17,9 +19,9 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    @GetMapping("/get/{id}")
-    public WalletDto getWallet(@PathVariable Long id) {
-        return walletService.getWallet(id);
+    @GetMapping("/get")
+    public WalletDto getWallet(@AuthenticationPrincipal CurrentUser currentUser) {
+        return walletService.getWallet(currentUser.getWalletId());
     }
 
     @PostMapping("/add")
@@ -27,32 +29,30 @@ public class WalletController {
         return walletService.addWallet(walletDto);
     }
 
-    @PutMapping("update/{id}")
-    public WalletDto updateWallet(@PathVariable Long id, @RequestBody WalletDto walletDto) {
-        return walletService.updateWallet(id, walletDto);
+    @PutMapping("/update")
+    public WalletDto updateWallet(@RequestBody WalletDto walletDto,
+                                  @AuthenticationPrincipal CurrentUser currentUser) {
+        return walletService.updateWallet(currentUser.getWalletId(), walletDto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteWallet(@PathVariable Long id) {
-        walletService.deleteWallet(id);
+    @PostMapping("/transferToWallet")
+    public void transferToWallet(@RequestParam String walletNumber,
+                                 @RequestParam Double amount,
+                                 @AuthenticationPrincipal CurrentUser currentUser) {
+        walletService.moneyTransfer(currentUser.getId(), walletNumber, amount);
     }
 
-    @PostMapping("/transfer")
-    public void transferMoney(@RequestParam String walletNumber, @RequestParam Double amount){
-        Long userId = 1L;
-        walletService.moneyTransfer(userId, walletNumber, amount);
+    @PostMapping("/transferToDefaultCard")
+    public void transferToDefaultCard(@RequestParam Double amount,
+                                      @AuthenticationPrincipal CurrentUser currentUser) {
+        walletService.transferToDefaultCard(currentUser.getId(), amount);
     }
 
-    @PostMapping("/transferMoneyFromWalletToDefaultCard")
-    public void transferFromWalletToDefaultCard(@RequestParam Double amount){
-        Long userId = 1L;
-        walletService.transferMoneyToDefaultCard(userId, amount);
-    }
-
-    @PostMapping("/transferMoneyFromWalletToCard")
-    public void transferMoneyFromWalletToCard(@RequestParam Long cardNumber, @RequestParam Double amount){
-        Long userId = 1L;
-        walletService.transferMoneyFromWalletToCard(userId, cardNumber,amount);
+    @PostMapping("/transferToCard")
+    public void transferToCard(@RequestParam Long cardNumber,
+                               @RequestParam Double amount,
+                               @AuthenticationPrincipal CurrentUser currentUser) {
+        walletService.transferToCard(currentUser.getId(), cardNumber, amount);
     }
 
 }

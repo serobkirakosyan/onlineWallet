@@ -19,14 +19,11 @@ public class CurrentUser implements UserDetails {
     private Long id;
     private String email;
     private String password;
+    private Long walletId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(UserDto.Role.USER.getValue()));
-    }
-
-    public Long getId() {
-        return this.id;
     }
 
     @Override

@@ -8,8 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "wallet_v1")
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -42,13 +41,17 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 
     @Column(name = "role")
     private String role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> listOfCards;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UtilityPayment> listOfUtilityPayments;
 
 }

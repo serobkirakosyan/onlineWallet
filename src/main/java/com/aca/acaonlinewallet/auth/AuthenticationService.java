@@ -27,7 +27,7 @@ public class AuthenticationService {
                 .gender(request.getGender())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(UserDto.Role.USER.getValue())
+                .role(request.getRole())
                 .build();
         return userRepository.save(user);
     }
@@ -45,8 +45,9 @@ public class AuthenticationService {
                 .id(user.getId())
                 .email(user.getEmail())
                 .password(user.getPassword())
+                .walletId(user.getWallet().getId())
                 .build();
-        String jwtToken = jwtService.generateToken(currentUser);
+        String jwtToken = jwtService.generateToken(currentUser.getUsername());
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
