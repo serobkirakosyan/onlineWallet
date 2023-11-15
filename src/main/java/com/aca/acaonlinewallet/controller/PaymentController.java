@@ -23,7 +23,7 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.pay(name, apiKey, secret, currentUser.getWalletId(), currentUser.getId(), amount));
     }
 
-    @GetMapping("/validate")
+    @PostMapping("/validate")
     public boolean validatePayment(@RequestBody ValidationRequestDto validationRequestDto,
                                    @RequestHeader("ApiKey") String apiKey,
                                    @RequestHeader("ApiSecret") String secret) {

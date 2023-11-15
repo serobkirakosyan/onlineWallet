@@ -1,5 +1,6 @@
 package com.aca.acaonlinewallet.auth;
 
+import com.aca.acaonlinewallet.dto.WalletDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class RegisterRequest {
     private String gender;
     private String password;
     private String role;
+    private WalletDto wallet;
 
 }
